@@ -106,6 +106,15 @@ var Infinite = React.createClass({
       styles: {}
     };
   },
+  getChildren:function (start, end) {
+      // optional start/end
+      return this.getChildrenFromProps(this.props, start, end)
+  },
+  getChildrenFromProps:function(props, start, end) {
+      if (props.getChildren)
+          return props.getChildren(start, end)
+      return start !== undefined && end !== undefined ? props.children : props.children.slice(start, end);
+  },
 
   // automatic adjust to scroll direction
   // give spinner a ReactCSSTransitionGroup
@@ -177,7 +186,7 @@ var Infinite = React.createClass({
       newProps.preloadAdditionalHeight = 0;
     }
 
-    return Object.assign(oldProps, newProps);
+    return Object.assign(oldProps, newProps, {children: this.getChildrenFromProps(props)});
   },
 
   generateComputedUtilityFunctions(props: ReactInfiniteProps): ReactInfiniteUtilityFunctions {
@@ -414,10 +423,7 @@ var Infinite = React.createClass({
   render(): React.Element<any, any, any> {
     var displayables;
     if (this.state.numberOfChildren > 1) {
-      displayables = this.computedProps.children.slice(this.state.displayIndexStart,
-                                                       this.state.displayIndexEnd + 1);
-    } else {
-      displayables = this.computedProps.children;
+      displayables = this.getChildren(this.state.displayIndexStart, this.state.displayIndexEnd + 1);
     }
 
     var infiniteScrollStyles = {};
