@@ -15,6 +15,9 @@ var Infinite = React.createClass({
     children: React.PropTypes.any,
 
     handleScroll: React.PropTypes.func,
+    // InfiniteComputer,
+    createComputer:  React.PropTypes.any,
+
 
     // preloadBatchSize causes updates only to
     // happen each preloadBatchSize pixels of scrolling.
@@ -239,7 +242,9 @@ var Infinite = React.createClass({
     var newState = {};
 
     newState.numberOfChildren = React.Children.count(computedProps.children);
-    newState.infiniteComputer = infiniteHelpers.createInfiniteComputer(
+
+    const create = props.createComputer ? props.createComputer : infiniteHelpers.createInfiniteComputer;
+    newState.infiniteComputer = create(
       computedProps.elementHeight,
       computedProps.children,
       computedProps.displayBottomUpwards
