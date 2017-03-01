@@ -401,10 +401,7 @@ var Infinite = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    var displayables;
-    if (this.state.numberOfChildren > 1) {
-      displayables = this.getChildren(this.state.displayIndexStart, this.state.displayIndexEnd + 1);
-    }
+    var displayables = this.getChildren(this.state.displayIndexStart, this.state.displayIndexEnd + 1);
 
     var infiniteScrollStyles = {};
     if (this.state.isScrolling) {
